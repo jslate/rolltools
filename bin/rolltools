@@ -1,0 +1,40 @@
+#!/usr/bin/env ruby
+
+require 'rolltools'
+require 'thor'
+require 'yaml'
+
+class Rolltools::CLI < Thor
+
+  desc "exceptions COUNTER", "get the exceptions for the item specified by COUNTER"
+  method_option :limit, aliases: '-l', type: :numeric, default: 20, desc: 'number of items to query'
+  def exceptions(counter)
+    puts Rolltools::Utils.get_items(counter).first(options[:limit]).map{|i|i[:exception]}.join("\n")
+  end
+
+  desc "user_agents COUNTER", "get the user_agents for the item specified by COUNTER"
+  method_option :limit, aliases: '-l', type: :numeric, default: 20, desc: 'number of items to query'
+  def user_agents(counter)
+    puts Rolltools::Utils.get_items(counter).first(options[:limit]).map{|i|i[:user_agent]}.join("\n")
+  end
+
+  desc "urls COUNTER", "get the urls for the item specified by COUNTER"
+  method_option :limit, aliases: '-l', type: :numeric, default: 20, desc: 'number of items to query'
+  def urls(counter)
+    puts Rolltools::Utils.get_items(counter).first(options[:limit]).map{|i|i[:url]}.join("\n")
+  end
+
+  desc "instance_ids COUNTER", "get the instance_ids for the item specified by COUNTER"
+  method_option :limit, aliases: '-l', type: :numeric, default: 20, desc: 'number of items to query'
+  def instance_ids(counter)
+    puts Rolltools::Utils.get_items(counter).first(options[:limit]).map{|i|i[:instance_id]}.join("\n")
+  end
+
+  desc "set_config KEY, VALUE", "set a config value, valid values: read_token"
+  def set_config(key, value)
+    Rolltools::Settings.set key, value
+  end
+
+end
+
+Rolltools::CLI.start
