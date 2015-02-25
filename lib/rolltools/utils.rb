@@ -26,8 +26,8 @@ module Rolltools::Utils
         item = JSON.parse(get_item_res.body)
         item['result']['instances'].each do |i| 
           e = i['data']['body']['trace']['exception']
-          y << {  url: i['data']['request']['url'],
-                  user_agent: i['data']['request']['headers']['User-Agent'],
+          y << {  url: (i['data']['request']['url'] rescue nil),
+                  user_agent: (i['data']['request']['headers']['User-Agent'] rescue nil),
                   instance_id: i['id'],
                   exception: "#{e['class']} #{e['message']}"
                 }
