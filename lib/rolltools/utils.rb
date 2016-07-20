@@ -25,11 +25,13 @@ module Rolltools::Utils
         get_item_res = conn.get "/api/1/item/#{item_id}/instances/", access_token: token, page: page
         item = JSON.parse(get_item_res.body)
         item['result']['instances'].each do |i|
-          e = i['data']['body']['trace']['exception']
+          e = i['data']['body']['trace']['exception'] rescue nil
           y << {  url: (i['data']['request']['url'] rescue nil),
                   user_agent: (i['data']['request']['headers']['User-Agent'] rescue nil),
                   instance_id: i['id'],
-                  exception: "#{e['class']} #{e['message']}"
+                  params: (i['data']['request']['params'] rescue nil),
+                  body: (i['data']['body']['message']['body'] rescue nil),
+                  exception: "#{e['class'] rescue ''} #{e['message'] rescue ''}"
                 }
         end
         page += 1
