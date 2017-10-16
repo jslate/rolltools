@@ -1,4 +1,4 @@
-require 'Faraday'
+require 'faraday'
 require 'json'
 
 module Rolltools::Utils
